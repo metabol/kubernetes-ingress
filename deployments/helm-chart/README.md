@@ -61,6 +61,7 @@ Parameter | Description | Default
 `controller.kind` | The kind of the Ingress controller installation - deployment or daemonset. | deployment
 `controller.nginxplus` | Deploys the Ingress controller for NGINX Plus. | false
 `controller.hostNetwork` | Enables the Ingress controller pods to use the host's network namespace. | false
+`controller.nginxDebug` | Enables debugging for NGINX. Uses the `nginx-debug` binary. Requires `error-log-level: debug` in the ConfigMap via `controller.config.entries` | false
 `controller.image.repository` | The image repository of the Ingress controller. | nginx/nginx-ingress
 `controller.image.tag` | The tag of the Ingress controller image. | edge
 `controller.image.pullPolicy` | The pull policy for the Ingress controller image. | IfNotPresent
@@ -82,7 +83,7 @@ Parameter | Description | Default
 `controller.useIngressClassOnly` | Ignore Ingress resources without the `"kubernetes.io/ingress.class"` annotation. | false
 `controller.watchNamespace` | Namespace to watch for Ingress resources. By default the Ingress controller watches all namespaces. | ""
 `controller.healthStatus` | Add a location "/nginx-health" to the default server. The location responds with the 200 status code for any request. Useful for external health-checking of the Ingress controller. | false
-`controller.nginxStatus.enable` | Enable the NGINX stub_status, or the NGINX Plus API. | true 
+`controller.nginxStatus.enable` | Enable the NGINX stub_status, or the NGINX Plus API. | true
 `controller.nginxStatus.port` | Set the port where the NGINX stub_status or the NGINX Plus API is exposed. | 8080
 `controller.reportIngressStatus.enable` | Update the address field in the status of Ingresses resources with an external address of the Ingress controller. You must also specify the source of the external address either through an external service via `controller.reportIngressStatus.externalService` or the `external-status-address` entry in the ConfigMap via `controller.config.entries`. **Note:** `controller.config.entries.external-status-address` takes precedence if both are set. | true
 `controller.reportIngressStatus.externalService` | Specifies the name of the service with the type LoadBalancer through which the Ingress controller is exposed externally. The external address of the service is used when reporting the status of Ingress resources. `controller.reportIngressStatus.enable` must be set to `true`. | nginx-ingress
