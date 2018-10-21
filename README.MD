@@ -94,7 +94,7 @@ $ kubectl get pods --namespace=nginx-ingress
 
 Create a service with the type *NodePort*:
 ```
-$ kubectl create -f service/nodeport.yaml
+$ kubectl create -f deployments/service/nodeport.yaml
 ```
 Kubernetes will randomly allocate two ports on every node of the cluster. To access the Ingress controller, use an IP address of any node of the cluster along with the two allocated ports. Read more about the type NodePort [here](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport).
 
