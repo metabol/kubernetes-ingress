@@ -13,27 +13,27 @@ The installation manifests are located in the [deployments](../deployments) fold
 
 1. Create a namespace and a service account for the Ingress controller:
     ```
-    kubectl apply -f common/ns-and-sa.yaml
+    kubectl apply -f deployments/common/ns-and-sa.yaml
 
     ```
 
 1. Create a secret with a TLS certificate and a key for the default server in NGINX:
     ```
-    $ kubectl apply -f common/default-server-secret.yaml
+    $ kubectl apply -f deployments/common/default-server-secret.yaml
     ```
 
     **Note**: The default server returns the Not Found page with the 404 status code for all requests for domains for which there are no Ingress rules defined. For testing purposes we include a self-signed certificate and key that we generated. However, we recommend that you use your own certificate and key.
 
 1. Create a config map for customizing NGINX configuration (read more about customization [here](../examples/customization)):
     ```
-    $ kubectl apply -f common/nginx-config.yaml
+    $ kubectl apply -f deployments/common/nginx-config.yaml
     ```
 
 ## 2. Configure RBAC
 
 If RBAC is enabled in your cluster, create a cluster role and bind it to the service account, created in Step 1:
 ```
-$ kubectl apply -f rbac/rbac.yaml
+$ kubectl apply -f deployments/rbac/rbac.yaml
 ```
 
 **Note**: To perform this step you must be a cluster admin. Follow the documentation of your Kubernetes platform to configure the admin access. For GKE, see the [Role-Based Access Control](https://cloud.google.com/kubernetes-engine/docs/how-to/role-based-access-control) doc.
@@ -48,12 +48,12 @@ We include two options for deploying the Ingress controller:
 
 For NGINX, run:
 ```
-$ kubectl apply -f deployment/nginx-ingress.yaml
+$ kubectl apply -f deployments/deployment/nginx-ingress.yaml
 ```
 
 For NGINX Plus, run:
 ```
-$ kubectl apply -f deployment/nginx-plus-ingress.yaml
+$ kubectl apply -f deployments/deployment/nginx-plus-ingress.yaml
 ```
 
 **Note**: Update the `nginx-plus-ingress.yaml` with the container image that you have built.
@@ -65,12 +65,12 @@ Kubernetes will create one Ingress controller pod.
 
 For NGINX, run:
 ```
-$ kubectl apply -f daemon-set/nginx-ingress.yaml
+$ kubectl apply -f deployments/daemon-set/nginx-ingress.yaml
 ```
 
 For NGINX Plus, run:
 ```
-$ kubectl apply -f daemon-set/nginx-plus-ingress.yaml
+$ kubectl apply -f deployments/daemon-set/nginx-plus-ingress.yaml
 ```
 
 **Note**: Update the `nginx-plus-ingress.yaml` with the container image that you have built.
@@ -105,11 +105,11 @@ Create a service with the type *LoadBalancer*. Kubernetes will allocate and conf
 Create a service using a manifest for your cloud provider:
 * For GCP or Azure, run:
     ```
-    $ kubectl apply -f service/loadbalancer.yaml
+    $ kubectl apply -f deployments/service/loadbalancer.yaml
     ```
 * For AWS, run:
     ```
-    $ kubectl apply -f service/loadbalancer-aws-elb.yaml
+    $ kubectl apply -f deployments/service/loadbalancer-aws-elb.yaml
     ```
     Kubernetes will allocate a Classic Load Balancer (ELB) in TCP mode with the PROXY protocol enabled to pass the client's information (the IP address and the port). NGINX must be configured to use the PROXY protocol:
     * Add the following keys to the config map file `nginx-config.yaml` from the Step 1 :
@@ -171,21 +171,21 @@ If you are using [Prometheus](https://prometheus.io/), you can deploy the NGINX 
 To deploy the NGINX Ingress controller with the exporter, use the modified manifests:
 * For a deployment, run:
     ```
-    $ kubectl apply -f deployment/nginx-ingress-with-prometheus.yaml
+    $ kubectl apply -f deployments/deployment/nginx-ingress-with-prometheus.yaml
     ```
 * For a daemonset, run:
     ```
-    $ kubectl apply -f daemon-set/nginx-ingress-with-prometheus.yaml
+    $ kubectl apply -f deployments/daemon-set/nginx-ingress-with-prometheus.yaml
     ```
 
 To deploy the NGINX Plus Ingress controller with the exporter, use the modified manifests:
 * For a deployment, run:
     ```
-    $ kubectl apply -f deployment/nginx-plus-ingress-with-prometheus.yaml
+    $ kubectl apply -f deployments/deployment/nginx-plus-ingress-with-prometheus.yaml
     ```
 * For a daemon set, run:
     ```
-    $ kubectl apply -f daemon-set/nginx-plus-ingress-with-prometheus.yaml
+    $ kubectl apply -f deployments/daemon-set/nginx-plus-ingress-with-prometheus.yaml
     ```
 
 ## Uninstall the Ingress Controller
