@@ -120,7 +120,7 @@ Create a service using a manifest for your cloud provider:
         ```
     * Update the config map:
         ```
-        kubectl apply -f common/nginx-config.yaml
+        kubectl apply -f deployments/common/nginx-config.yaml
         ```
     **Note**: For AWS, additional options regarding an allocated load balancer are available, such as the type of a load balancer and SSL termination. Read [this doc](https://kubernetes.io/docs/concepts/services-networking/service/#type-loadbalancer) to learn more.
 
